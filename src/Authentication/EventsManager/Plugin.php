@@ -105,7 +105,9 @@ class Plugin extends UserPlugin
             }
 
             $response = $this->getDI()->getShared('response');
-            $response->redirect($authRoute->getCompiledPattern());
+            $response->redirect(array(
+                'for'   =>  $authRoute->getName()
+            ));
         }
 
         //needs to stop dispatching
