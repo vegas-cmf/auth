@@ -34,18 +34,19 @@ class Plugin extends UserPlugin
         $matchedRoute = $this->router->getMatchedRoute();
         $paths = $matchedRoute->getPaths();
         if (!isset($paths['auth'])) {
-            $authSessionKey = Authentication::DEFAULT_SESSION_KEY;
+            //authentication is disabled by default
+            $authSessionKey = false;
         } else {
             $authSessionKey = $paths['auth'];
         }
 
+        //checks if authentication was disabled
         if ($this->isAuthenticationDisabled($authSessionKey)) {
             return true;
         }
 
         $authRoute = $this->getAuthDefaultRoute($authSessionKey);
 
-        $has = $this->getDI()->has($authSessionKey);
         if (!$this->getDI()->has($authSessionKey)) {
             return $this->setNotAuthenticated($authRoute);
         }
