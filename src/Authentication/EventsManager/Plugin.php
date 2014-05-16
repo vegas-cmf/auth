@@ -45,12 +45,14 @@ class Plugin extends UserPlugin
             return true;
         }
 
+        //find the default route for current authentication scope
         $authRoute = $this->getAuthDefaultRoute($authSessionKey);
 
         if (!$this->getDI()->has($authSessionKey)) {
             return $this->setNotAuthenticated($authRoute);
         }
 
+        //checks authentication
         $isAuthenticated = $this->getDI()->get($authSessionKey)->isAuthenticated();
         if (!$isAuthenticated) {
             return $this->setNotAuthenticated($authRoute);

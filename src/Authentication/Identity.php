@@ -13,7 +13,7 @@
 namespace Vegas\Security\Authentication;
 
 /**
- * Simple class for identity object representation
+ * Simple class for object representation identity
  *
  * @package Vegas\Security\Authentication
  */
