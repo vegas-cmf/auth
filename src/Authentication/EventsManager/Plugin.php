@@ -9,7 +9,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
- 
 namespace Vegas\Security\Authentication\EventsManager;
 
 use Phalcon\Events\Event,
@@ -32,7 +31,13 @@ class Plugin extends UserPlugin
     public function beforeDispatch(Event $event, Dispatcher $dispatcher)
     {
         $matchedRoute = $this->router->getMatchedRoute();
+
+        if (!$matchedRoute) {
+             throw new Exception\RouteNotFoundException();
+        }
+
         $paths = $matchedRoute->getPaths();
+
         if (!isset($paths['auth'])) {
             //authentication is disabled by default
             $authSessionKey = false;
