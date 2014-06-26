@@ -115,6 +115,8 @@ class Plugin extends UserPlugin
             $response->redirect(array(
                 'for'   =>  $authRoute->getName()
             ));
+
+            $response->send();
         }
 
         //needs to stop dispatching
