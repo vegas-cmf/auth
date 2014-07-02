@@ -75,4 +75,14 @@ class Identity
 
         return $this->values[$name];
     }
+
+    /**
+     * Returns identity values as array
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->values;
+    }
 }
