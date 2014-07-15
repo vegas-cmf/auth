@@ -37,5 +37,21 @@ class ViewCacheServiceProvider implements \Vegas\DI\ServiceProviderInterface {
             return $cache;
         });
     }
+
+    /**
+     * Returns array of dependencies
+     * <code>
+     * return array(
+     *      MongoServiceProvider::SERVICE_NAME,
+     *      CollectionManagerServiceProvider::SERVICE_NAME
+     * );
+     * </code>
+     *
+     * @return array
+     */
+    public function getDependencies()
+    {
+        return array();
+    }
 }
  
