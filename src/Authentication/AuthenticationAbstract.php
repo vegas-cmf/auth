@@ -39,7 +39,7 @@ abstract class AuthenticationAbstract
      *
      * @param PasswordInterface $passwordManager    Password manager for dealing with password hash
      */
-    public function __construct(PasswordInterface $passwordManager)
+    public function __construct(PasswordInterface $passwordManager = null)
     {
         $this->passwordManager = $passwordManager;
     }

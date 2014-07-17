@@ -16,7 +16,8 @@ use \Phalcon\DI;
 use Vegas\Db\Decorator\CollectionAbstract;
 use Vegas\Security\Authentication\GenericUserInterface;
 
-class StandardTest extends \PHPUnit_Framework_TestCase
+
+class NoCredentialTest extends \PHPUnit_Framework_TestCase
 {
 
     public static function setUpBeforeClass()
@@ -43,8 +44,8 @@ class StandardTest extends \PHPUnit_Framework_TestCase
     {
         $user = $this->createTempUser();
 
-        $auth = DI::getDefault()->get('auth');
-        $this->assertTrue($auth->authenticate($user, 'test1234'));
+        $auth = DI::getDefault()->get('authNoCredential');
+        $this->assertTrue($auth->authenticate($user, null));
 
         $this->assertInstanceOf('\MongoId', $auth->getIdentity()->getId());
         $this->assertNotNull($auth->getIdentity()->getEmail());
@@ -52,12 +53,16 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
     public function testAuthenticateInvalidUser()
     {
-        $user = $this->createTempUser();
+        $user = \BaseUser::findFirst(array(array('email' => 'fake@email.com')));
 
-        $auth = DI::getDefault()->get('auth');
+        $auth = DI::getDefault()->get('authNoCredential');
 
-        $this->setExpectedException('\Vegas\Security\Authentication\Exception\InvalidCredentialException');
-        $auth->authenticate($user, 'pass1234');
+        $this->assertEmpty($user);
+        $this->assertNotInstanceOf('\Vegas\Security\Authentication\GenericUserInterface', $user);
+        $this->setExpectedException('\PHPUnit_Framework_Error');
+        //Argument 1 passed to Vegas\Security\Authentication::authenticate()
+        //must implement interface Vegas\Security\Authentication\GenericUserInterface, boolean given
+        $auth->authenticate($user, null);
     }
 }
  

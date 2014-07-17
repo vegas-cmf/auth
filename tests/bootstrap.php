@@ -57,6 +57,15 @@ $di->set('auth', function() use ($di) {
 
     return $auth;
 }, true);
+//no credential
+$di->set('authNoCredential', function() use ($di) {
+    $adapter = new \Vegas\Security\Authentication\Adapter\NoCredential();
+    $adapter->setSessionStorage($di->get('sessionManager')->createScope('authUser'));
+    $auth = new \Vegas\Security\Authentication($adapter);
 
+    return $auth;
+}, true);
+
+require "fixtures/BaseUser.php";
 
 \Phalcon\DI::setDefault($di);

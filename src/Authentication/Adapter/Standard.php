@@ -14,9 +14,9 @@ namespace Vegas\Security\Authentication\Adapter;
 
 use \Vegas\Security\Authentication\AuthenticationAbstract;
 use \Vegas\Security\Authentication\AuthenticationInterface;
-use Vegas\Security\Authentication\Exception\InvalidCredentialException;
-use Vegas\Security\Authentication\GenericUserInterface;
-use Vegas\Security\Authentication\Identity;
+use \Vegas\Security\Authentication\Exception\InvalidCredentialException;
+use \Vegas\Security\Authentication\GenericUserInterface;
+use \Vegas\Security\Authentication\Identity;
 
 /**
  * @package Vegas\Security\Authentication\Adapter

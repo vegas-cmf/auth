@@ -26,6 +26,7 @@ class Plugin extends UserPlugin
     /**
      * @param Event $event
      * @param Dispatcher $dispatcher
+     * @throws Exception\RouteNotFoundException
      * @return bool
      */
     public function beforeDispatch(Event $event, Dispatcher $dispatcher)

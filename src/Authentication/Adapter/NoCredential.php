@@ -14,26 +14,30 @@ namespace Vegas\Security\Authentication\Adapter;
 
 use \Vegas\Security\Authentication\AuthenticationAbstract;
 use \Vegas\Security\Authentication\AuthenticationInterface;
-use Vegas\Security\Authentication\Exception\InvalidCredentialException;
-use Vegas\Security\Authentication\GenericUserInterface;
-use Vegas\Security\Authentication\Identity;
+use Vegas\Security\Authentication\Exception\IdentityNotFoundException;
+use \Vegas\Security\Authentication\GenericUserInterface;
+use \Vegas\Security\Authentication\Identity As AuthenticationIdentity;
 
 /**
  * @package Vegas\Security\Authentication\Adapter
  */
-class Email extends AuthenticationAbstract implements AuthenticationInterface
+class NoCredential extends AuthenticationAbstract implements AuthenticationInterface
 {
 
     /**
-     * Authenticates user with indicated credential
+     * Authenticates user with identity
      *
      * @param \Vegas\Security\Authentication\GenericUserInterface $user
      * @param $credential
-     * @throws \Vegas\Security\Authentication\Exception\InvalidCredentialException
+     * @throws \Vegas\Security\Authentication\Exception\IdentityNotFoundException
      * @return bool
      */
     public function authenticate(GenericUserInterface $user, $credential)
     {
+        $userAttributes = $user->getAttributes();
+        if (empty($userAttributes)) {
+            throw new IdentityNotFoundException();
+        }
         $this->store($user->getAttributes());
 
         return true;
@@ -72,7 +76,7 @@ class Email extends AuthenticationAbstract implements AuthenticationInterface
      */
     protected function store(array $attributes)
     {
-        $identityObject = new Identity($attributes);
+        $identityObject = new AuthenticationIdentity($attributes);
         $this->sessionScope->set('identity', $identityObject);
         $this->sessionScope->set('authenticated', true);
 
