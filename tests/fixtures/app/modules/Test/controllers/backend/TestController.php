@@ -21,4 +21,9 @@ class TestController extends ControllerAbstract
     {
         echo 1;
     }
+
+    public function multiauthAction()
+    {
+        echo 1;
+    }
 } 

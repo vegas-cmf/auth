@@ -23,5 +23,15 @@ return array(
 
             'auth'  =>  'authAdmin'
         )
+    ),
+    'multiauth'    =>  array(
+        'route' =>  '/multiauth',
+        'paths' =>  array(
+            'module'    =>  'Test',
+            'controller'    =>  'Backend\Test',
+            'action'    =>  'multiauth',
+
+            'auth'  =>  array('authAdmin', 'authUser')
+        )
     )
 );

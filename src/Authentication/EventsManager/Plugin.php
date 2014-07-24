@@ -23,6 +23,8 @@ use Vegas\Security\Authentication;
  */
 class Plugin extends UserPlugin
 {
+    protected $authSessionKeys;
+
     /**
      * @param Event $event
      * @param Dispatcher $dispatcher
@@ -31,46 +33,58 @@ class Plugin extends UserPlugin
      */
     public function beforeDispatch(Event $event, Dispatcher $dispatcher)
     {
-        $matchedRoute = $this->router->getMatchedRoute();
-
-        if (!$matchedRoute) {
-             throw new Exception\RouteNotFoundException();
-        }
-
-        $paths = $matchedRoute->getPaths();
-
-        if (!isset($paths['auth'])) {
-            //authentication is disabled by default
-            $authSessionKey = false;
-        } else {
-            $authSessionKey = $paths['auth'];
-        }
+        $this->authSessionKeys = $this->getAuthenticationScopes();
 
         //checks if authentication was disabled
-        if ($this->isAuthenticationDisabled($authSessionKey)) {
+        if ($this->isAuthenticationDisabled()) {
             return true;
         }
 
-        //find the default route for current authentication scope
-        $authRoute = $this->getAuthDefaultRoute($authSessionKey);
-
-        if (!$this->getDI()->has($authSessionKey)) {
-            return $this->setNotAuthenticated($authRoute);
-        }
-
-        //checks authentication
-        $isAuthenticated = $this->getDI()->get($authSessionKey)->isAuthenticated();
-        if (!$isAuthenticated) {
-            return $this->setNotAuthenticated($authRoute);
-        }
-        return true;
+        return $this->authenticate();
     }
 
     /**
-     * @param $authSessionKey
+     * @return bool
+     */
+    protected function authenticate()
+    {
+        //find the default route for current authentication scope
+        $authRoute = $this->getAuthDefaultRoute();
+
+        foreach ($this->authSessionKeys As $authSessionKey) {
+            if ($this->getDI()->has($authSessionKey) && $this->getDI()->get($authSessionKey)->isAuthenticated()) {
+                return true;
+            }
+        }
+
+        return $this->setNotAuthenticated($authRoute);
+    }
+
+    /**
+     * Return array of all used authentication scopes for current route.
+     *
+     * @return array
+     */
+    protected function getAuthenticationScopes()
+    {
+        $matchedRoute = $this->router->getMatchedRoute();
+        $paths = $matchedRoute->getPaths();
+
+        if (empty($paths['auth'])) {
+            return array(false);
+        }
+
+        if (is_array($paths['auth'])) {
+            return $paths['auth'];
+        }
+
+        return array($paths['auth']);
+    }
+
+    /**
      * @return \Phalcon\Mvc\Router\RouteInterface
      */
-    protected function getAuthDefaultRoute($authSessionKey)
+    protected function getAuthDefaultRoute()
     {
         //finds root route
         $rootRoute = $this->router->getRouteByName('root');
@@ -82,20 +96,26 @@ class Plugin extends UserPlugin
 
         $authConfig = $config->auth->toArray();
 
-        if (!isset($authConfig[$authSessionKey])) {
-            return $rootRoute;
+        foreach ($this->authSessionKeys As $authSessionKey) {
+            if (isset($authConfig[$authSessionKey])) {
+                return $this->router->getRouteByName($authConfig[$authSessionKey]['route']);
+            }
         }
 
-        return $this->router->getRouteByName($authConfig[$authSessionKey]['route']);
+        return $rootRoute;
     }
 
     /**
-     * @param $authSessionKey
      * @return bool
      */
-    protected function isAuthenticationDisabled($authSessionKey)
+    protected function isAuthenticationDisabled()
     {
-        return ($authSessionKey == 'disabled' || !$authSessionKey);
+        foreach ($this->authSessionKeys As $authSessionKey) {
+            if ($authSessionKey == 'disabled' || !$authSessionKey) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

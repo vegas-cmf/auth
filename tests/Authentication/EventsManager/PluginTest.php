@@ -129,4 +129,42 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
         $response->resetHeaders();
     }
+
+    public function testAuthenticatedMultiscope()
+    {
+        DI::getDefault()->set('authAdmin', function() {
+            return new FakeAuth();
+        }, true);
+
+        $this->runApplication('/multiauth', DI::getDefault());
+
+        $response = DI::getDefault()->getShared('response');
+        $headers = $response->getHeaders();
+
+        $this->assertEmpty($headers->get('Status'));
+        $this->assertEmpty($headers->get('Location'));
+
+        $router = DI::getDefault()->getShared('router');
+        $this->assertEquals('/multiauth', $router->getMatchedRoute()->getCompiledPattern());
+
+        $response->resetHeaders();
+    }
+
+
+    public function testNoAuthenticatedMultiscope()
+    {
+        DI::getDefault()->set('authAdmin', function() {
+            return new FakeNoAuth();
+        }, true);
+
+        $this->runApplication('/multiauth', DI::getDefault());
+
+        $response = DI::getDefault()->getShared('response');
+        $headers = $response->getHeaders();
+
+        $this->assertEquals('302 Found', $headers->get('Status'));
+        $this->assertEquals('/admin/login', $headers->get('Location'));
+
+        $response->resetHeaders();
+    }
 } 
