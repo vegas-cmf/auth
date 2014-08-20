@@ -12,9 +12,7 @@
 
 namespace Vegas\Tests\Security\Authentication\Adapter;
 
-use \Phalcon\DI;
-use Vegas\Db\Decorator\CollectionAbstract;
-use Vegas\Security\Authentication\GenericUserInterface;
+use Phalcon\DI;
 
 
 class NoCredentialTest extends \PHPUnit_Framework_TestCase
