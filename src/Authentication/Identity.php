@@ -49,7 +49,7 @@ class Identity
      */
     public function __call($name, $args)
     {
-        if (strpos($name, 'get') !== -1) {
+        if (strpos($name, 'get') !== false) {
             $name = lcfirst(str_replace('get', '', $name));
             if (!isset($this->values[$name])) return null;
 
