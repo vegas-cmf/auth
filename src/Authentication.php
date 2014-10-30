@@ -14,7 +14,6 @@ namespace Vegas\Security;
 
 use Vegas\Security\Authentication\AuthenticationInterface;
 use Vegas\Security\Authentication\GenericUserInterface;
-use Vegas\Session\Scope;
 
 /**
  * Class Authentication

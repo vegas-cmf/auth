@@ -68,6 +68,10 @@ class Plugin extends UserPlugin
     protected function getAuthenticationScopes()
     {
         $matchedRoute = $this->router->getMatchedRoute();
+        if (!$matchedRoute) {
+            return array(false);
+        }
+
         $paths = $matchedRoute->getPaths();
 
         if (empty($paths['auth'])) {
