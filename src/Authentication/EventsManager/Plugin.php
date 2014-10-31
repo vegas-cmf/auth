@@ -31,7 +31,7 @@ class Plugin extends UserPlugin
      * @throws Exception\RouteNotFoundException
      * @return bool
      */
-    public function beforeDispatch(Event $event, Dispatcher $dispatcher)
+    public function beforeExecuteRoute(Event $event, Dispatcher $dispatcher)
     {
         $this->authSessionKeys = $this->getAuthenticationScopes();
 
@@ -69,12 +69,13 @@ class Plugin extends UserPlugin
     {
         $matchedRoute = $this->router->getMatchedRoute();
         if (!$matchedRoute) {
+            // notfound route
             return array(false);
         }
 
         $paths = $matchedRoute->getPaths();
-
         if (empty($paths['auth'])) {
+            // no auth required
             return array(false);
         }
 
