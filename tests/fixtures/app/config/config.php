@@ -9,6 +9,7 @@ return array(
         'libraryDir'     => dirname(APP_ROOT) . DIRECTORY_SEPARATOR,
         'pluginDir'      => APP_ROOT . '/app/plugins/',
         'moduleDir'      => APP_ROOT . '/app/modules/',
+        'taskDir'      => APP_ROOT . '/app/tasks/',
         'baseUri'        => '/',
         'language'       => 'nl_NL',
         'view'  => array(

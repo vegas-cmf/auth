@@ -12,8 +12,7 @@
  
 namespace Test\Controllers\Backend;
 
-use Vegas\Mvc\Controller\ControllerAbstract;
-use Vegas\Http\Response\Json as JsonResponse;
+use Vegas\Mvc\ControllerAbstract;
 
 class TestController extends ControllerAbstract
 {

@@ -69,7 +69,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $response = DI::getDefault()->getShared('response');
         $headers = $response->getHeaders();
 
-        $this->assertEmpty($headers->get('Status'));
+//        $this->assertEmpty($headers->get('Status'));
         $this->assertEmpty($headers->get('Location'));
 
         $router = DI::getDefault()->getShared('router');
