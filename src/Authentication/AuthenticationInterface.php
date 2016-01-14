@@ -13,7 +13,7 @@
 namespace Vegas\Security\Authentication;
 
 /**
- *
+ * Interface AuthenticationInterface
  * @package Vegas\Security\Authentication
  */
 interface AuthenticationInterface
@@ -40,9 +40,4 @@ interface AuthenticationInterface
      */
     public function logout();
 
-    /**
-     * @param GenericUserInterface $user
-     * @return mixed
-     */
-    public function setUser(GenericUserInterface $user);
 } 

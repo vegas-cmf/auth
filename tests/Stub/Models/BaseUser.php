@@ -10,40 +10,34 @@
  * file that was distributed with this source code.
  */
 
-use Vegas\Db\Decorator\CollectionAbstract;
+namespace Vegas\Tests\Stub\Models;
+
 use Vegas\Security\Authentication\GenericUserInterface;
 
-class BaseUser extends CollectionAbstract implements GenericUserInterface
+class BaseUser implements GenericUserInterface
 {
+    public $email;
+
+    public $password;
+
     public function getSource()
     {
         return 'vegas_users';
     }
 
-    public function beforeSave()
-    {
-        if (!empty($this->raw_password)) {
-            $this->writeAttribute('password', $this->getDI()->get('userPasswordManager')->encryptPassword($this->raw_password));
-            unset($this->raw_password);
-        }
-    }
-
     public function getIdentity()
     {
-        return $this->readAttribute('email');
+        return $this->email;
     }
 
     public function getCredential()
     {
-        return $this->readAttribute('password');
+        return $this->password;
     }
 
     public function getAttributes()
     {
-        $userData = $this->toArray();
-        //remove password from user data
-        unset($userData['password']);
-        $userData['id'] = $this->getId();
+        $userData['email'] = $this->email;
 
         return $userData;
     }

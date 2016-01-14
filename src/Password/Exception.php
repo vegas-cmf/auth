@@ -11,13 +11,12 @@
  */
 namespace Vegas\Security\Password;
 
-use \Vegas\Exception as VegasException;
 
 /**
  * Class Exception
  * @package Vegas\Security\Password
  */
-class Exception extends VegasException
+class Exception extends \Phalcon\Exception
 {
 
 }

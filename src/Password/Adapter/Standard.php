@@ -11,17 +11,27 @@
  */
 namespace Vegas\Security\Password\Adapter;
 
-use \Phalcon\DI\InjectionAwareInterface;
+use \Phalcon\DI;
 use \Vegas\Security\Password\PasswordInterface;
 
 /**
  * Class Standard
  * @package Vegas\Security\Password\Adapter
  */
-class Standard implements PasswordInterface, InjectionAwareInterface
+class Standard implements PasswordInterface
 {
-    use \Vegas\DI\InjectionAwareTrait;
-    
+    /** @var \Phalcon\DI $di  */
+    protected $di;
+
+    /**
+     * Standard constructor.
+     * @param \Phalcon\DI $di
+     */
+    public function __construct(\Phalcon\DI $di)
+    {
+        $this->di = $di;
+    }
+
     /**
      * Encrypts password using Phalcon Security
      *

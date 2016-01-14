@@ -15,7 +15,7 @@ namespace Vegas\Security\Authentication\Adapter;
 use Vegas\Security\Authentication\Exception as AuthenticationException;
 
 /**
- *
+ * Class Exception
  * @package Vegas\Security\Authentication\Adapter
  */
 class Exception extends AuthenticationException

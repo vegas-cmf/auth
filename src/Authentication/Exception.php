@@ -12,13 +12,11 @@
  
 namespace Vegas\Security\Authentication;
 
-use \Vegas\Exception as VegasException;
-
 /**
  *
  * @package Vegas\Security\Authentication
  */
-class Exception extends VegasException
+class Exception extends \Phalcon\Exception
 {
     protected $message = 'Authentication error';
 } 
