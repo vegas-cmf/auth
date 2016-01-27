@@ -2,7 +2,7 @@
 /**
  * This file is part of Vegas package
  *
- * @author Slawomir Zytko <slawomir.zytko@gmail.com>
+ * @author Slawomir Zytko <slawek@amsterdam-standard.pl>
  * @copyright Amsterdam Standard Sp. Z o.o.
  * @homepage http://vegas-cmf.github.io
  *
@@ -15,7 +15,7 @@ namespace Vegas\Security\Authentication\Adapter;
 use Vegas\Security\Authentication\Exception as AuthenticationException;
 
 /**
- *
+ * Class Exception
  * @package Vegas\Security\Authentication\Adapter
  */
 class Exception extends AuthenticationException

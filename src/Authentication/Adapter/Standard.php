@@ -2,7 +2,7 @@
 /**
  * This file is part of Vegas package
  *
- * @author Slawomir Zytko <slawomir.zytko@gmail.com>
+ * @author Slawomir Zytko <slawek@amsterdam-standard.pl>
  * @copyright Amsterdam Standard Sp. Z o.o.
  * @homepage http://vegas-cmf.github.io
  *
@@ -19,6 +19,7 @@ use \Vegas\Security\Authentication\GenericUserInterface;
 use \Vegas\Security\Authentication\Identity;
 
 /**
+ * Class Standard
  * @package Vegas\Security\Authentication\Adapter
  */
 class Standard extends AuthenticationAbstract implements AuthenticationInterface
@@ -49,7 +50,7 @@ class Standard extends AuthenticationAbstract implements AuthenticationInterface
      */
     public function logout()
     {
-        return $this->sessionScope->destroy();
+        $this->sessionBag->destroy();
     }
 
     /**
@@ -57,7 +58,7 @@ class Standard extends AuthenticationAbstract implements AuthenticationInterface
      */
     public function isAuthenticated()
     {
-        return (boolean)($this->sessionScope != null && $this->sessionScope->get('authenticated'));
+        return (boolean)($this->sessionBag != null && $this->sessionBag->get('authenticated'));
     }
 
     /**
@@ -66,7 +67,7 @@ class Standard extends AuthenticationAbstract implements AuthenticationInterface
      */
     public function getIdentity()
     {
-        return $this->sessionScope->get('identity');
+        return $this->sessionBag->get('identity');
     }
 
     /**
@@ -78,8 +79,8 @@ class Standard extends AuthenticationAbstract implements AuthenticationInterface
     protected function store(array $attributes)
     {
         $identityObject = new Identity($attributes);
-        $this->sessionScope->set('identity', $identityObject);
-        $this->sessionScope->set('authenticated', true);
+        $this->sessionBag->set('identity', $identityObject);
+        $this->sessionBag->set('authenticated', true);
 
         return $attributes;
     }

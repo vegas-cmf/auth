@@ -2,7 +2,7 @@
 /**
  * This file is part of Vegas package
  *
- * @author Slawomir Zytko <slawomir.zytko@gmail.com>
+ * @author Slawomir Zytko <slawek@amsterdam-standard.pl>
  * @copyright Amsterdam Standard Sp. Z o.o.
  * @homepage http://vegas-cmf.github.io
  *
@@ -12,13 +12,11 @@
  
 namespace Vegas\Security\Authentication;
 
-use \Vegas\Exception as VegasException;
-
 /**
  *
  * @package Vegas\Security\Authentication
  */
-class Exception extends VegasException
+class Exception extends \Phalcon\Exception
 {
     protected $message = 'Authentication error';
 } 

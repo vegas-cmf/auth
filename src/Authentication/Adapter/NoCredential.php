@@ -2,13 +2,13 @@
 /**
  * This file is part of Vegas package
  *
- * @author Slawomir Zytko <slawomir.zytko@gmail.com>
+ * @author Slawomir Zytko <slawek@amsterdam-standard.pl>
  * @copyright Amsterdam Standard Sp. Z o.o.
  * @homepage https://bitbucket.org/amsdard/vegas-phalcon
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- */ 
+ */
 
 namespace Vegas\Security\Authentication\Adapter;
 
@@ -19,11 +19,11 @@ use \Vegas\Security\Authentication\GenericUserInterface;
 use \Vegas\Security\Authentication\Identity As AuthenticationIdentity;
 
 /**
+ * Class NoCredential
  * @package Vegas\Security\Authentication\Adapter
  */
 class NoCredential extends AuthenticationAbstract implements AuthenticationInterface
 {
-
     /**
      * Authenticates user with identity
      *
@@ -48,7 +48,7 @@ class NoCredential extends AuthenticationAbstract implements AuthenticationInter
      */
     public function logout()
     {
-        return $this->sessionScope->destroy();
+        $this->sessionBag->destroy();
     }
 
     /**
@@ -56,7 +56,7 @@ class NoCredential extends AuthenticationAbstract implements AuthenticationInter
      */
     public function isAuthenticated()
     {
-        return (boolean)($this->sessionScope != null && $this->sessionScope->get('authenticated'));
+        return (boolean)($this->sessionBag != null && $this->sessionBag->get('authenticated'));
     }
 
     /**
@@ -65,7 +65,7 @@ class NoCredential extends AuthenticationAbstract implements AuthenticationInter
      */
     public function getIdentity()
     {
-        return $this->sessionScope->get('identity');
+        return $this->sessionBag->get('identity');
     }
 
     /**
@@ -77,8 +77,8 @@ class NoCredential extends AuthenticationAbstract implements AuthenticationInter
     protected function store(array $attributes)
     {
         $identityObject = new AuthenticationIdentity($attributes);
-        $this->sessionScope->set('identity', $identityObject);
-        $this->sessionScope->set('authenticated', true);
+        $this->sessionBag->set('identity', $identityObject);
+        $this->sessionBag->set('authenticated', true);
 
         return $attributes;
     }

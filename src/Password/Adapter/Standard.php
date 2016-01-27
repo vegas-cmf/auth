@@ -2,7 +2,7 @@
 /**
  * This file is part of Vegas package
  *
- * @author Slawomir Zytko <slawomir.zytko@gmail.com>
+ * @author Slawomir Zytko <slawek@amsterdam-standard.pl>
  * @copyright Amsterdam Standard Sp. Z o.o.
  * @homepage http://vegas-cmf.github.io
  *
@@ -11,17 +11,27 @@
  */
 namespace Vegas\Security\Password\Adapter;
 
-use \Phalcon\DI\InjectionAwareInterface;
+use \Phalcon\DI;
 use \Vegas\Security\Password\PasswordInterface;
 
 /**
  * Class Standard
  * @package Vegas\Security\Password\Adapter
  */
-class Standard implements PasswordInterface, InjectionAwareInterface
+class Standard implements PasswordInterface
 {
-    use \Vegas\DI\InjectionAwareTrait;
-    
+    /** @var \Phalcon\DiInterface $di */
+    protected $di;
+
+    /**
+     * Standard constructor.
+     * @param \Phalcon\DiInterface $di
+     */
+    public function __construct(\Phalcon\DiInterface $di)
+    {
+        $this->di = $di;
+    }
+
     /**
      * Encrypts password using Phalcon Security
      *

@@ -2,7 +2,7 @@
 /**
  * This file is part of Vegas package
  *
- * @author Slawomir Zytko <slawomir.zytko@gmail.com>
+ * @author Slawomir Zytko <slawek@amsterdam-standard.pl>
  * @copyright Amsterdam Standard Sp. Z o.o.
  * @homepage http://vegas-cmf.github.io
  *
@@ -12,8 +12,9 @@
 
 namespace Vegas\Security\Authentication;
 
+use Phalcon\Session\Bag;
+use Phalcon\Session\BagInterface;
 use Vegas\Security\Password\PasswordInterface;
-use Vegas\Session\ScopeInterface;
 
 /**
  * @package Vegas\Security\Authentication
@@ -21,19 +22,14 @@ use Vegas\Session\ScopeInterface;
 abstract class AuthenticationAbstract
 {
     /**
-     * @var GenericUserInterface
-     */
-    protected $user;
-
-    /**
      * @var \Vegas\Security\Password\PasswordInterface
      */
     protected $passwordManager;
 
     /**
-     * @var \Vegas\Session\ScopeInterface
+     * @var \Phalcon\Session\Bag
      */
-    protected $sessionScope;
+    protected $sessionBag;
 
     /**
      *
@@ -45,20 +41,11 @@ abstract class AuthenticationAbstract
     }
 
     /**
-     *
-     * @param ScopeInterface $sessionScope
+     * @param BagInterface $sessionBag
      */
-    public function setSessionStorage(ScopeInterface $sessionScope)
+    public function setSessionStorage(BagInterface $sessionBag)
     {
-        $this->sessionScope = $sessionScope;
+        $this->sessionBag = $sessionBag;
     }
 
-    /**
-     *
-     * @param GenericUserInterface $user    User object with identity and password
-     */
-    public function setUser(GenericUserInterface $user)
-    {
-        $this->user = $user;
-    }
-} 
+}

@@ -29,19 +29,19 @@ $di->set('mongo', function() use ($config) {
 /**
  * Start the session the first time some component request the session service
  */
-$di->set('session', function () use ($config) {
-    $sessionAdapter = new SessionAdapter($config->session->toArray());
-    if (!$sessionAdapter->isStarted()) {
-        $sessionAdapter->start();
-    }
-    return $sessionAdapter;
-}, true);
-
-$di->set('sessionManager', function() use ($di) {
-    $session = new Vegas\Session($di->get('session'));
-
-    return $session;
-}, true);
+//$di->set('session', function () use ($config) {
+//    $sessionAdapter = new SessionAdapter($config->session->toArray());
+//    if (!$sessionAdapter->isStarted()) {
+//        $sessionAdapter->start();
+//    }
+//    return $sessionAdapter;
+//}, true);
+//
+//$di->set('sessionManager', function() use ($di) {
+//    $session = new Vegas\Session($di->get('session'));
+//
+//    return $session;
+//}, true);
 
 /**
  * Password manager for standard user
@@ -66,6 +66,6 @@ $di->set('authNoCredential', function() use ($di) {
     return $auth;
 }, true);
 
-require "fixtures/BaseUser.php";
+//require "tests/Stub/Models/BaseUser.php";
 
 \Phalcon\DI::setDefault($di);
