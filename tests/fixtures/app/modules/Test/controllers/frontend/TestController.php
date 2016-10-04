@@ -45,4 +45,16 @@ class TestController extends ControllerAbstract
         $this->response->setStatusCode(200, 'show OK');
         return $this->jsonResponse(array('test' => 'value'));
     }
+
+    public function forwardAction()
+    {
+        $route = $this->router->getRouteByName('products');
+        $paths = $route->getPaths();
+
+        $this->router->handle($route->getPattern());
+        return $this->dispatcher->forward([
+            'controller'    => $paths['controller'],
+            'action'        => $paths['action']
+        ]);
+    }
 } 

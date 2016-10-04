@@ -167,4 +167,24 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
         $response->resetHeaders();
     }
+
+    /**
+     * Verifies if auth is checked after forwarding from a route with no auth requirement
+     */
+    public function testForwardedAuthCheck()
+    {
+        DI::getDefault()->set('authUser', function() {
+            return new FakeNoAuth();
+        }, true);
+
+        $this->runApplication('/forward', DI::getDefault());
+
+        $response = DI::getDefault()->getShared('response');
+        $headers = $response->getHeaders();
+
+        $this->assertEquals('302 Found', $headers->get('Status'));
+        $this->assertEquals('/login', $headers->get('Location'));
+
+        $response->resetHeaders();
+    }
 } 
