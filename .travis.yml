@@ -23,9 +23,7 @@ before_install:
 before_script:
   - phpenv config-add travis/php.ini
   - git clone -q --depth=1 https://github.com/phalcon/cphalcon.git -b ${PHALCON_VERSION}
-  - (cd cphalcon/build; bash install &>/dev/null)
-  - phpenv config-add cphalcon/unit-tests/ci/phalcon.ini &> /dev/null
-  - php --ri phalcon
+  - (cd cphalcon/ext; export CFLAGS="-g3 -O1 -fno-delete-null-pointer-checks -Wall"; phpize && ./configure --enable-phalcon && make -j4 && sudo make install && phpenv config-add ../unit-tests/ci/phalcon.ini)
   - travis_retry composer install --dev --no-interaction
 
 script:
