@@ -2,20 +2,29 @@ language: php
 
 php:
   - 5.4
+  - 5.5
+  - 5.6
 
 services:
   - mongodb
-  - memcached
+
+env:
+  global:
+    - PHALCON_VERSION="phalcon-v1.3.4"
+    - CC="ccache gcc"
+    - PATH="$PATH:~/bin"
+    - MONGO_DB_NAME=vegas_test
+    - VEGAS_CMF_AUTH_MONGO_PORT_27017_TCP_ADDR=localhost
+    - VEGAS_CMF_AUTH_MONGO_PORT_27017_TCP_PORT=27017
 
 before_install:
-  - mysql -e "CREATE DATABASE IF NOT EXISTS vegas_test;" -uroot
+  - mysql -e "CREATE DATABASE IF NOT EXISTS ${MONGO_DB_NAME};" -uroot
 
 before_script:
   - phpenv config-add travis/php.ini
-  - git clone -q --depth=1 https://github.com/phalcon/cphalcon.git -b phalcon-v1.3.4
+  - git clone -q --depth=1 https://github.com/phalcon/cphalcon.git -b ${PHALCON_VERSION}
   - (cd cphalcon/ext; export CFLAGS="-g3 -O1 -fno-delete-null-pointer-checks -Wall"; phpize && ./configure --enable-phalcon && make -j4 && sudo make install && phpenv config-add ../unit-tests/ci/phalcon.ini)
-  - curl -s http://getcomposer.org/installer | php
-  - php composer.phar install --dev
+  - travis_retry composer install --dev --no-interaction
 
 script:
   - mkdir -p tests/fixtures/cache

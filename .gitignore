@@ -36,3 +36,6 @@ composer.phar
 composer.lock
 travis.log
 cache/
+
+tests/fixtures/app/config/modules.php
+tests/fixtures/app/config/services.php

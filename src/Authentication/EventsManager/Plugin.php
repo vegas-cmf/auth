@@ -31,7 +31,7 @@ class Plugin extends UserPlugin
      * @throws Exception\RouteNotFoundException
      * @return bool
      */
-    public function beforeExecuteRoute(Event $event, Dispatcher $dispatcher)
+    public function beforeDispatch(Event $event, Dispatcher $dispatcher)
     {
         $this->authSessionKeys = $this->getAuthenticationScopes();
 
@@ -147,6 +147,9 @@ class Plugin extends UserPlugin
                 $response->send();
             }
         }
+
+        // Force session state maintenance
+        $this->session->__destruct();
 
         //needs to stop dispatching
         return false;

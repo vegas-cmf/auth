@@ -2,6 +2,16 @@
 use Vegas\Http\Method;
 
 return array(
+    'forward' => array(
+        'route' => '/forward',
+        'paths' => array(
+            'module'    =>  'Test',
+            'controller' => 'Frontend\Test',
+            'action'    =>  'forward',
+
+            'auth'  =>  false
+        ),
+    ),
     'products' => array(
         'route' => '/products',
         'paths' => array(

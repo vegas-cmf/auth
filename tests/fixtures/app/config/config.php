@@ -29,7 +29,9 @@ return array(
     ),
 
     'mongo' => array(
-        'db' => 'vegas_test',
+        'dbname'    => getenv('MONGO_DB_NAME'),
+        'host'      => getenv('VEGAS_CMF_AUTH_MONGO_PORT_27017_TCP_ADDR'),
+        'port'      => getenv('VEGAS_CMF_AUTH_MONGO_PORT_27017_TCP_PORT')
     ),
 
     'session' => array(
