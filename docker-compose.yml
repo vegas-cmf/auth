@@ -1,23 +1,22 @@
 mongo:
-    image: mongo:3.0.8
-    container_name: vegas-cmf-auth-mongo
-    command: mongod --smallfiles
-    expose:
-      - 27017
-      - 28017
-    environment:
-      - AUTH=no
-      - TERM=xterm-256color
+  image: mongo:3.2
+  container_name: vegas-cmf-auth-mongo
+  command: mongod --smallfiles
+  expose:
+    - 27017
+    - 28017
+  environment:
+    - AUTH=no
+    - TERM=xterm-256color
 
 phpunit:
-    image: amsdard/phalcon:1.3.4-fpm-5.6
-    container_name: vegas-cmf-auth-phpunit
-    working_dir: /var/www/html
-    command: vendor/bin/phpunit
-    environment:
-      - TERM=xterm-256color
-      - MONGO_DB_NAME=vegas_test
-    links:
-      - mongo:vegas-cmf-auth-mongo
-    volumes:
-      - ./:/var/www/html
+  image: amsdard/phalcon:3.x
+  container_name: vegas-cmf-auth-phpunit
+  command: vendor/bin/phpunit
+  environment:
+    - TERM=xterm-256color
+    - MONGO_DB_NAME=vegas_test
+  links:
+    - mongo:vegas-cmf-auth-mongo
+  volumes:
+    - ./:/opt

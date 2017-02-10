@@ -9,17 +9,16 @@
             "email": "vegas@amsterdam-standard.pl"
         }
     ],
-    "repositories": [],
     "require": {
-        "php": ">=5.4",
-        "ext-phalcon": ">=1.3.0,<2",
-        "vegas-cmf/core" : "1.*",
-        "vegas-cmf/session" : "1.*"
+        "php": "^5.5 || ^7.0",
+        "ext-phalcon": "^3.0",
+        "vegas-cmf/core" : "v3.0.x-dev",
+        "vegas-cmf/session" : "v3.0.x-dev"
     },
     "require-dev": {
-        "phalcon/devtools": "1.3.x-dev",
-        "phpunit/phpunit": "4.0.*",
-        "satooshi/php-coveralls": "1.0.1"
+        "phalcon/devtools": "^3.0",
+        "phpunit/phpunit": "4.* || 5.*",
+        "satooshi/php-coveralls": "^1.0"
     },
     "autoload": {
         "psr-4": {
