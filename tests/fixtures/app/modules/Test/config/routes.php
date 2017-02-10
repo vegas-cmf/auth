@@ -41,7 +41,7 @@ return array(
             'controller'    =>  'Backend\Test',
             'action'    =>  'multiauth',
 
-            'auth'  =>  array('authAdmin', 'authUser')
+            'auth'  =>  json_encode(['authAdmin', 'authUser'])
         )
     )
 );

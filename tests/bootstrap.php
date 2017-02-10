@@ -17,7 +17,7 @@ class DiProvider
 {
     public function resolve(\Phalcon\Config $config)
     {
-        $di = new \Phalcon\DI\FactoryDefault();
+        $di = new \Phalcon\Di\FactoryDefault();
         $di->set('config', $config, true);
 
         /**
@@ -76,7 +76,7 @@ class DiProvider
             return $auth;
         }, true);
 
-        \Phalcon\DI::setDefault($di);
+        \Phalcon\Di::setDefault($di);
     }
 }
 

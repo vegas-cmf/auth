@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-use Phalcon\DI;
+use Phalcon\Di;
 use Vegas\Db\Mapping\Json;
 use Vegas\Db\MappingManager;
 

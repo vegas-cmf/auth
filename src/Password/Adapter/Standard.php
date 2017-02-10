@@ -11,7 +11,7 @@
  */
 namespace Vegas\Security\Password\Adapter;
 
-use \Phalcon\DI\InjectionAwareInterface;
+use \Phalcon\Di\InjectionAwareInterface;
 use \Vegas\Security\Password\PasswordInterface;
 
 /**
@@ -20,7 +20,7 @@ use \Vegas\Security\Password\PasswordInterface;
  */
 class Standard implements PasswordInterface, InjectionAwareInterface
 {
-    use \Vegas\DI\InjectionAwareTrait;
+    use \Vegas\Di\InjectionAwareTrait;
     
     /**
      * Encrypts password using Phalcon Security

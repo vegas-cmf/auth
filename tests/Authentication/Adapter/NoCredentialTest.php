@@ -12,7 +12,7 @@
 
 namespace Vegas\Tests\Security\Authentication\Adapter;
 
-use Phalcon\DI;
+use Phalcon\Di;
 
 
 class NoCredentialTest extends \PHPUnit_Framework_TestCase
@@ -20,7 +20,7 @@ class NoCredentialTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        $sm = DI::getDefault()->get('sessionManager');
+        $sm = Di::getDefault()->get('sessionManager');
         if ($sm->isStarted()) {
             $sm->destroy();
         }
@@ -42,7 +42,7 @@ class NoCredentialTest extends \PHPUnit_Framework_TestCase
     {
         $user = $this->createTempUser();
 
-        $auth = DI::getDefault()->get('authNoCredential');
+        $auth = Di::getDefault()->get('authNoCredential');
         $this->assertTrue($auth->authenticate($user, null));
 
         $this->assertInstanceOf('\MongoId', $auth->getIdentity()->getId());
@@ -53,7 +53,7 @@ class NoCredentialTest extends \PHPUnit_Framework_TestCase
     {
         $user = \BaseUser::findFirst(array(array('email' => 'fake@email.com')));
 
-        $auth = DI::getDefault()->get('authNoCredential');
+        $auth = Di::getDefault()->get('authNoCredential');
 
         $this->assertEmpty($user);
         $this->assertNotInstanceOf('\Vegas\Security\Authentication\GenericUserInterface', $user);

@@ -13,7 +13,7 @@
 namespace Vegas\Tests\Security\Authentication\EventsManager;
 
 use Composer\Factory;
-use Phalcon\DI;
+use Phalcon\Di;
 
 class FakeAuth {
 
@@ -50,7 +50,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     {
         $this->runApplication('/products', null);
 
-        $response = DI::getDefault()->getShared('response');
+        $response = Di::getDefault()->getShared('response');
         $headers = $response->getHeaders();
         $this->assertEquals('302 Found', $headers->get('Status'));
         $this->assertEquals('/login', $headers->get('Location'));
@@ -60,19 +60,19 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
     public function testAuthenticated()
     {
-        DI::getDefault()->set('authUser', function() {
+        Di::getDefault()->set('authUser', function() {
             return new FakeAuth();
         }, true);
 
-        $this->runApplication('/products', DI::getDefault());
+        $this->runApplication('/products', Di::getDefault());
 
-        $response = DI::getDefault()->getShared('response');
+        $response = Di::getDefault()->getShared('response');
         $headers = $response->getHeaders();
 
 //        $this->assertEmpty($headers->get('Status'));
         $this->assertEmpty($headers->get('Location'));
 
-        $router = DI::getDefault()->getShared('router');
+        $router = Di::getDefault()->getShared('router');
         $this->assertEquals('/products', $router->getMatchedRoute()->getCompiledPattern());
 
         $response->resetHeaders();
@@ -81,13 +81,13 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
     public function testNoAuthenticated()
     {
-        DI::getDefault()->set('authUser', function() {
+        Di::getDefault()->set('authUser', function() {
             return new FakeNoAuth();
         }, true);
 
-        $this->runApplication('/products', DI::getDefault());
+        $this->runApplication('/products', Di::getDefault());
 
-        $response = DI::getDefault()->getShared('response');
+        $response = Di::getDefault()->getShared('response');
         $headers = $response->getHeaders();
 
         $this->assertEquals('302 Found', $headers->get('Status'));
@@ -99,13 +99,13 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     public function testNoAuthenticatedInAnotherScope()
     {
         //make test for `authUser` scope which trying to access resource where `authAdmin` is required
-        DI::getDefault()->set('authUser', function() {
+        Di::getDefault()->set('authUser', function() {
             return new FakeAuth();
         }, true);
 
-        $this->runApplication('/categories', DI::getDefault());
+        $this->runApplication('/categories', Di::getDefault());
 
-        $response = DI::getDefault()->getShared('response');
+        $response = Di::getDefault()->getShared('response');
         $headers = $response->getHeaders();
 
         $this->assertEquals('302 Found', $headers->get('Status'));
@@ -114,14 +114,14 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $response->resetHeaders();
 
         //make test for `authAdmin` scope which trying to access resource where `authUser` is required
-        DI::getDefault()->remove('authUser');
-        DI::getDefault()->set('authAdmin', function() {
+        Di::getDefault()->remove('authUser');
+        Di::getDefault()->set('authAdmin', function() {
             return new FakeAuth();
         }, true);
 
-        $this->runApplication('/products', DI::getDefault());
+        $this->runApplication('/products', Di::getDefault());
 
-        $response = DI::getDefault()->getShared('response');
+        $response = Di::getDefault()->getShared('response');
         $headers = $response->getHeaders();
 
         $this->assertEquals('302 Found', $headers->get('Status'));
@@ -132,19 +132,19 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
     public function testAuthenticatedMultiscope()
     {
-        DI::getDefault()->set('authAdmin', function() {
+        Di::getDefault()->set('authAdmin', function() {
             return new FakeAuth();
         }, true);
 
-        $this->runApplication('/multiauth', DI::getDefault());
+        $this->runApplication('/multiauth', Di::getDefault());
 
-        $response = DI::getDefault()->getShared('response');
+        $response = Di::getDefault()->getShared('response');
         $headers = $response->getHeaders();
 
         $this->assertEmpty($headers->get('Status'));
         $this->assertEmpty($headers->get('Location'));
 
-        $router = DI::getDefault()->getShared('router');
+        $router = Di::getDefault()->getShared('router');
         $this->assertEquals('/multiauth', $router->getMatchedRoute()->getCompiledPattern());
 
         $response->resetHeaders();
@@ -153,13 +153,13 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
     public function testNoAuthenticatedMultiscope()
     {
-        DI::getDefault()->set('authAdmin', function() {
+        Di::getDefault()->set('authAdmin', function() {
             return new FakeNoAuth();
         }, true);
 
-        $this->runApplication('/multiauth', DI::getDefault());
+        $this->runApplication('/multiauth', Di::getDefault());
 
-        $response = DI::getDefault()->getShared('response');
+        $response = Di::getDefault()->getShared('response');
         $headers = $response->getHeaders();
 
         $this->assertEquals('302 Found', $headers->get('Status'));
@@ -173,13 +173,13 @@ class PluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testForwardedAuthCheck()
     {
-        DI::getDefault()->set('authUser', function() {
+        Di::getDefault()->set('authUser', function() {
             return new FakeNoAuth();
         }, true);
 
-        $this->runApplication('/forward', DI::getDefault());
+        $this->runApplication('/forward', Di::getDefault());
 
-        $response = DI::getDefault()->getShared('response');
+        $response = Di::getDefault()->getShared('response');
         $headers = $response->getHeaders();
 
         $this->assertEquals('302 Found', $headers->get('Status'));

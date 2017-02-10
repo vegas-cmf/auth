@@ -12,7 +12,7 @@
 
 namespace Vegas\Tests\Security\Authentication\Adapter;
 
-use \Phalcon\DI;
+use \Phalcon\Di;
 use Vegas\Db\Decorator\CollectionAbstract;
 use Vegas\Security\Authentication\GenericUserInterface;
 
@@ -21,7 +21,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        $sm = DI::getDefault()->get('sessionManager');
+        $sm = Di::getDefault()->get('sessionManager');
         if ($sm->isStarted()) {
             $sm->destroy();
         }
@@ -43,7 +43,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
     {
         $user = $this->createTempUser();
 
-        $auth = DI::getDefault()->get('auth');
+        $auth = Di::getDefault()->get('auth');
         $this->assertTrue($auth->authenticate($user, 'test1234'));
 
         $this->assertInstanceOf('\MongoId', $auth->getIdentity()->getId());
@@ -54,7 +54,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
     {
         $user = $this->createTempUser();
 
-        $auth = DI::getDefault()->get('auth');
+        $auth = Di::getDefault()->get('auth');
 
         $this->setExpectedException('\Vegas\Security\Authentication\Exception\InvalidCredentialException');
         $auth->authenticate($user, 'pass1234');
